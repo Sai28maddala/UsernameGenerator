@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Username Generator</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #fce4ec);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      z-index: 2;
+    }
+
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      transition: 0.2s;
+    }
+
+    input:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 12px 25px;
+      font-size: 16px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .output {
+      margin-top: 20px;
+      font-weight: 500;
+      color: #333;
+      font-size: 18px;
+      background: #f1f1f1;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 30px 20px;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti"></canvas>
+
+  <div class="container">
+    <h2>🎉 Username Generator</h2>
+    <input type="text" id="nameInput" placeholder="Enter your name" />
+    <input type="date" id="dobInput" />
+    <button onclick="generateUsername()">Generate</button>
+    <div class="output" id="result">Your username will appear here!</div>
+  </div>
+
+  <!-- Confetti Library (cdn) -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    function generateUsername() {
+      const name = document.getElementById("nameInput").value.trim().toLowerCase();
+      const dob = document.getElementById("dobInput").value;
+
+      const adjectives = [
+        "cool", "fast", "brave", "clever", "silent", "epic",
+        "fierce", "witty", "lucky", "curious", "smart", "ninja",
+        "gentle", "sneaky", "wild", "mighty", "fearless", "graceful",
+        "cosmic", "happy", "stormy", "bold", "dreamy", "zesty",
+        "electric", "fancy", "funny", "kind", "jolly", "sharp"
+      ];
+
+      const nouns = [
+        "tiger", "dragon", "wizard", "panther", "eagle", "phoenix",
+        "gamer", "panda", "ninja", "star", "lion", "robot",
+        "dancer", "warrior", "genius", "hacker", "ghost", "fox"
+      ];
+
+      const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+      const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+      const randomNum = Math.floor(Math.random() * 90 + 10); // Two-digit number
+
+      if (name === "" || dob === "") {
+        document.getElementById("result").innerText = "❗ Please enter both name and date of birth.";
+        return;
+      }
+
+      const [year, month, day] = dob.split("-");
+      const shortYear = year.slice(-2); // Last 2 digits of year
+      const username = `${randomAdjective}_${randomNoun}_${name}${day}${month}${shortYear}${randomNum}`;
+
+      document.getElementById("result").innerText = `✨ Your Username: ${username}`;
+
+      // 🎉 Trigger Confetti
+      confetti({
+        particleCount: 120,
+        spread: 80,
+        origin: { y: 0.4 }
+      });
+    }
+  </script>
+</body>
+</html>
+
+
